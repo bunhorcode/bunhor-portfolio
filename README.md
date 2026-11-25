@@ -27,6 +27,7 @@ Edit **`src/data/portfolio.ts`**: name, title, intro, about text, skills, projec
 
 - Replace every `your-username` placeholder.
 - Leave `email` as `""` until you want to publish one. Setting it enables the mailto and copy buttons.
+- The home hero uses `public/images/profile-deb-bunhor.jpg`, configured as `profileImage: "/images/profile-deb-bunhor.jpg"` in `src/data/portfolio.ts`. To change it, add another image under `public/images/` and update `profileImage` to its URL path (omit `public/`). The circular frame crops the image; an empty path shows initials instead.
 - Set a project's `repo` to `""` to hide its link; add `demo` for a live-demo link.
 - Skills, projects, and services are examples, not verified claims. Edit or delete anything that doesn't apply.
 - Change the favicon in `src/app/icon.svg`. Put images in `public/images/`.

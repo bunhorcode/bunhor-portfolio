@@ -2,6 +2,7 @@
 
 # ---- 1. Install dependencies (cached unless package files change) ----
 FROM node:24-alpine AS deps
+RUN apk upgrade --no-cache
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN --mount=type=cache,target=/root/.npm \
@@ -9,6 +10,7 @@ RUN --mount=type=cache,target=/root/.npm \
 
 # ---- 2. Build the static export into /app/out ----
 FROM node:24-alpine AS build
+RUN apk upgrade --no-cache
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 ARG NEXT_PUBLIC_SITE_URL
@@ -20,8 +22,9 @@ COPY . .
 RUN npm run build
 
 # ---- 3. Serve with Nginx (worker processes run as the unprivileged "nginx" user) ----
-FROM nginx:1.29-alpine AS runtime
-RUN rm -f /etc/nginx/conf.d/default.conf
+FROM nginx:1.29-alpine-slim AS runtime
+RUN apk upgrade --no-cache \
+ && rm -f /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/portfolio.conf
 COPY security-headers.inc /etc/nginx/security-headers.inc
 COPY --from=build /app/out /usr/share/nginx/html

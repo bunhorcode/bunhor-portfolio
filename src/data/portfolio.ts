@@ -30,6 +30,7 @@ export interface Service {
 
 export interface Portfolio {
   name: string;
+  profileImage: string;
   jobTitle: string;
   intro: string;
   /** Used for <meta description> and Open Graph. */
@@ -49,6 +50,7 @@ export interface Portfolio {
 
 export const portfolio: Portfolio = {
   name: "Deb Bunhor",
+  profileImage: "/images/profile-deb-bunhor.jpg",
   jobTitle: "DevOps Engineer",
   intro:
     "I build reliable infrastructure, automate workflows, and simplify software delivery through modern DevOps practices.",
