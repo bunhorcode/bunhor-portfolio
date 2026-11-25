@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+:root,
+:root[data-theme="dark"] {
+  --bg: #0c1116;
+  --card: #121920;
+  --line: #222d38;
+  --fg: #e6edf3;
+  --muted: #8b9aa9;
+  --accent: #22d3ee;
+  --accent-fg: #04202a;
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --bg: #fafbfc;
+  --card: #ffffff;
+  --line: #dde3ea;
+  --fg: #0f1720;
+  --muted: #566475;
+  --accent: #0e7490;
+  --accent-fg: #ffffff;
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Theme-dependent icon visibility for the toggle (no JS state needed). */
+:root[data-theme="light"] .only-dark { display: none; }
+:root:not([data-theme="light"]) .only-light { display: none; }
+
+.grid-bg {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 30% 0%, #000 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at 30% 0%, #000 0%, transparent 70%);
+  opacity: 0.35;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.pulse-dot { animation: pulse-dot 2.4s ease-in-out infinite; }
