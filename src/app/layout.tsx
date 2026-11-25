@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { portfolio } from "@/data/portfolio";
+// @ts-expect-error CSS side-effect imports are handled by Next.js.
 import "./globals.css";
 
 const sans = IBM_Plex_Sans({
@@ -38,7 +39,7 @@ export const viewport: Viewport = { themeColor: "#0c1116" };
 // Runs before paint to avoid a theme flash. Dark is the default.
 const themeScript = `try{var t=localStorage.getItem("theme");document.documentElement.dataset.theme=t==="light"?"light":"dark"}catch(e){document.documentElement.dataset.theme="dark"}`;
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" data-theme="dark" className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>

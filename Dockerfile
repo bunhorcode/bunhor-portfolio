@@ -1,14 +1,14 @@
 # syntax=docker/dockerfile:1
 
 # ---- 1. Install dependencies (cached unless package files change) ----
-FROM node:22-alpine AS deps
+FROM node:24-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN --mount=type=cache,target=/root/.npm \
     if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
 # ---- 2. Build the static export into /app/out ----
-FROM node:22-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 ARG NEXT_PUBLIC_SITE_URL
@@ -20,7 +20,7 @@ COPY . .
 RUN npm run build
 
 # ---- 3. Serve with Nginx (worker processes run as the unprivileged "nginx" user) ----
-FROM nginx:1.27-alpine AS runtime
+FROM nginx:1.29-alpine AS runtime
 RUN rm -f /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/portfolio.conf
 COPY security-headers.inc /etc/nginx/security-headers.inc
