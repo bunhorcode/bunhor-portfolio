@@ -56,9 +56,10 @@ docker stop portfolio && docker rm portfolio   # cleanup
 - To bake in a public URL: `docker build --build-arg NEXT_PUBLIC_SITE_URL=https://example.com -t deb-bunhor-portfolio .`
 
 ## GitHub Actions
-- `.github/workflows/ci.yml` runs on pushes and pull requests to `main`: `npm ci`, ESLint, `tsc --noEmit`, `next build`, Docker image build (GHA layer cache), then a container smoke test (home page loads, unknown path returns 404). It needs `package-lock.json` committed.
+- `.github/workflows/ci.yml` runs on pushes and pull requests to `main`: `npm ci`, ESLint, `tsc --noEmit`, `next build`, Docker image build (GHA layer cache), then a container smoke test (home page loads, unknown path returns 404). Successful pushes to `main` also publish `docker.io/<username>/deb-bunhor-portfolio` with `latest` and commit-SHA tags; pull requests do not publish.
+- To enable Docker Hub publishing, create the `deb-bunhor-portfolio` repository on Docker Hub and add `DOCKERHUB_USERNAME` and a Docker Hub access token as repository **Actions secrets** (`Settings > Secrets and variables > Actions`). The token needs write access to the repository.
 - `.github/workflows/deploy-pages.yml` is an optional manual deploy to GitHub Pages. In your repo open **Settings > Pages > Source: GitHub Actions**, then run the workflow from the **Actions** tab. It sets the base path to `/<repo-name>` automatically. For a custom domain or a `<user>.github.io` repository, remove the `NEXT_PUBLIC_BASE_PATH` line.
-- No deployment credentials or cloud providers are assumed. To deploy elsewhere, run the Docker image on any host, or upload `out/` to any static host.
+- To run the published image, use `docker pull <username>/deb-bunhor-portfolio:latest` and run it on any host. Alternatively, upload `out/` to any static host.
 
 ## Screenshots
 _Add screenshots here, for example `docs/screenshot-dark.png` and `docs/screenshot-light.png`._
